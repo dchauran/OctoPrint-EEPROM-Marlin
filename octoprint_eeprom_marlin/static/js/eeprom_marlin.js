@@ -16,6 +16,7 @@ $(function() {
         self.setRegExVars = function(version) {
             // All versions
             self.eepromM501RegEx = /M501/;
+            self.eepromM503RegEx = /M503/;
             self.eepromOKRegEx = /ok/;
             self.eepromM92RegEx = /M92 ([X])(.*)[^0-9]([Y])(.*)[^0-9]([Z])(.*)[^0-9]([E])(.*)/;
             self.eepromM203RegEx = /M203 ([X])(.*)[^0-9]([Y])(.*)[^0-9]([Z])(.*)[^0-9]([E])(.*)/;
@@ -1291,7 +1292,7 @@ $(function() {
         self.fromCurrentData = function(data) {
             hasChangedEepromForm = true;
             if (!self.isMarlinFirmware()) {
-                _.each(data.logs, function (line) {
+                _.each(self._requestFirmwareInfo(), function (line) {
                     var match = self.firmwareRegEx.exec(line);
                     if (match) {
                         var fw_name = match[1] + ' ' + match[2]
